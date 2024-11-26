@@ -1,0 +1,39 @@
+-- Tabla de Usuario
+CREATE TABLE Usuario (
+    id UUID PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    created TIMESTAMP NOT NULL,
+    modified TIMESTAMP NOT NULL,
+    last_login TIMESTAMP NOT NULL,
+    token VARCHAR(512),
+    is_active BOOLEAN NOT NULL
+);
+
+-- Tabla de Telefono
+CREATE TABLE Telefono (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    number VARCHAR(20) NOT NULL,
+    citycode VARCHAR(10) NOT NULL,
+    contrycode VARCHAR(10) NOT NULL,
+    usuario_id UUID NOT NULL,
+    FOREIGN KEY (usuario_id) REFERENCES Usuario(id) ON DELETE CASCADE
+);
+Detalles del Script
+Usuario Table:
+
+id: Identificador único del usuario, generado como un UUID.
+email: Campo único para evitar duplicados.
+created, modified, last_login: Fechas para seguimiento.
+token: Token de acceso generado como un JWT.
+is_active: Indica si el usuario está habilitado.
+Telefono Table:
+
+id: Identificador único para cada teléfono.
+usuario_id: Llave foránea que relaciona un teléfono con un usuario.
+Relación definida con ON DELETE CASCADE para que los teléfonos asociados se eliminen si se borra un usuario.
+Cómo Usarlo
+Copia este script.
+Si usas H2 o cualquier otra base de datos, puedes ejecutarlo directamente en su consola o desde tu aplicación configurada.
+Si usas Spring Boot, puedes incluirlo en el archivo data.sql para que se ejecute automáticamente al iniciar la aplicación.
